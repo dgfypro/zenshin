@@ -1,0 +1,44 @@
+.main-footer {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .main-footer__logo {
+    flex-shrink: 0;
+    width: 104px; // logo width
+    height: 30px; // logo height
+    display: block;
+  
+    svg, img {
+      display: block;
+      width: inherit;
+      height: inherit;
+    }
+  }
+  
+  .main-footer__link {
+    color: var(--color-contrast-medium);
+    text-decoration: none;
+  
+    &:hover {
+      color: var(--color-contrast-high);
+      text-decoration: underline;
+    }
+  }
+  
+  // colophon
+  .main-footer__colophon {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .main-footer__social {
+    text-decoration: none;
+    display: inline-block;
+    color: var(--color-contrast-medium);
+  
+    &:hover {
+      color: var(--color-contrast-high);
+    }
+  }

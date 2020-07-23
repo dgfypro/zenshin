@@ -1,0 +1,22 @@
+// --------------------------------
+
+// Custom Style - your bespoke style
+
+// --------------------------------
+
+@import 'custom-style/colors';
+@import 'custom-style/spacing';
+@import 'custom-style/shared-styles';
+@import 'custom-style/typography';
+@import 'custom-style/icons';
+@import 'custom-style/buttons';
+@import 'custom-style/forms';
+@import 'custom-style/_allcustom.scss';
+
+@import 'component/_2_flexi-header.scss';
+@import 'component/_1_anim-menu-btn.scss'; 
+@import 'component/_2_slideshow.scss';
+@import 'component/_swipe-content.scss';
+@import 'component/_fullpage-scroll.scss';
+@import 'component/_fullnav.scss';
+@import 'component/_slides.scss';

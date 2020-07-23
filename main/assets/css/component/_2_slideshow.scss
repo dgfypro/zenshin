@@ -1,0 +1,441 @@
+:root {
+    --slideshow-height: 280px;
+  
+    // transitions
+    --slideshow-fade-transition-duration: 0.25s; // fade effect transition duration
+    --slideshow-slide-transition-duration: 0.35s; // slide effect transition duration
+    --slideshow-prx-transition-duration: 0.5s; // parallax effect transition duration
+  
+    // controls
+    --slideshow-btn-width: 1.6em; 
+    --slideshow-btn-height: 3.2em;
+    --slideshow-btn-icon-size: 1.6em;
+    --slideshow-btn-offset: var(--space-xs); // gap between button and slideshow edges
+  
+    @include breakpoint(sm) {
+      --slideshow-height: 380px;
+    }
+  
+    @include breakpoint(md) {
+      --slideshow-height: 480px;
+    }
+  
+    @include breakpoint(lg) {
+      --slideshow-height: 580px;
+    }
+  }
+  
+  // slide
+  .slideshow__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--slideshow-height);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  
+    &:focus {
+      outline: none;
+    }
+  }
+  
+  // set a fixed ratio for the slides
+  .slideshow--ratio-16\:9 .slideshow__item { 
+    height: 0;
+    padding-bottom: 56.25%; // 16:9 aspect ratio
+  }
+  
+  .slideshow--ratio-4\:3 .slideshow__item { 
+    height: 0;
+    padding-bottom: 75%; // 4:3 aspect ratio
+  }
+  
+  .slideshow--ratio-1\:1 .slideshow__item { 
+    height: 0;
+    padding-bottom: 100%; // 1:1 aspect ratio
+  }
+  
+  // slideshow basic style
+  .js {
+    .slideshow {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+  
+    .slideshow__content {
+      overflow: hidden;
+    }
+  
+    .slideshow__item {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      visibility: hidden;
+    }
+  
+    .slideshow__item--selected {
+      position: relative;
+      z-index: 3;
+      visibility: visible;
+    }
+  }
+  
+  // fade-in animation
+  .js {
+    .slideshow--transition-fade .slideshow__item {
+      opacity: 0;
+      transition: opacity 0s var(--slideshow-fade-transition-duration), visibility 0s var(--slideshow-fade-transition-duration);
+    }
+    
+    .slideshow--transition-fade .slideshow__item--selected {
+      opacity: 1;
+      transition: opacity var(--slideshow-fade-transition-duration);
+    }
+  }
+  
+  // slide-in animation
+  .js {
+    .slideshow--transition-slide .slideshow__item {
+      animation-duration: var(--slideshow-slide-transition-duration);
+      animation-fill-mode: forwards;
+      animation-timing-function: var(--ease-out);
+    
+      > * { // hide content of not-visible items so that they are not focusable 
+        visibility: hidden;
+      }
+    } 
+    
+    .slideshow--transition-slide .slideshow__item--selected > * { // show content of selected item 
+      visibility: visible;
+    }
+    
+    .slideshow--transition-slide .slideshow__item--slide-in-left { // visible item - enter from left to right
+      animation-name: slide-in-left;
+    }
+    
+    .slideshow--transition-slide .slideshow__item--slide-in-right { // visible item - enter from right to left
+      animation-name: slide-in-right;
+    }
+    
+    .slideshow--transition-slide .slideshow__item--slide-out-left { // leaving item - leave from left to right
+      animation-name: slide-out-left;
+    }
+    
+    .slideshow--transition-slide .slideshow__item--slide-out-right { // leaving item - leave from right to left
+      animation-name: slide-out-right;
+    }
+    
+    .slideshow--transition-slide .slideshow__item--slide-out-left, 
+    .slideshow--transition-slide .slideshow__item--slide-out-right {
+      z-index: 2;
+    
+      &.slideshow__item--selected {
+        z-index: 3; // fix bug on browsers not supporting CSS animations
+      }
+    
+      > * {
+        visibility: visible;
+      }
+    }
+  }
+  
+  @keyframes slide-in-left {
+    0% {
+      visibility: visible;
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slide-in-right {
+    0% {
+      visibility: visible;
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slide-out-left {
+    0% {
+      visibility: visible;
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  @keyframes slide-out-right {
+    0% {
+      visibility: visible;
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  // parallax animation 
+  .js {
+    .slideshow--transition-prx .slideshow__item {
+      animation-duration: var(--slideshow-prx-transition-duration);
+      animation-fill-mode: forwards;
+      animation-timing-function: var(--ease-out);
+    
+      > * { // hide content of not-visible items so that they are not focusable 
+        visibility: hidden;
+      }
+    } 
+    
+    .slideshow--transition-prx .slideshow__item--selected > * { // show content of selected item 
+      visibility: visible;
+    }
+    
+    .slideshow--transition-prx .slideshow__item--prx-in-left { // visible item - enter from left to right
+      animation-name: prx-in-left;
+    }
+    
+    .slideshow--transition-prx .slideshow__item--prx-in-right { // visible item - enter from right to left
+      animation-name: prx-in-right;
+    }
+    
+    .slideshow--transition-prx .slideshow__item--prx-out-left { // leaving item - leave from left to right
+      animation-name: prx-out-left;
+    }
+    
+    .slideshow--transition-prx .slideshow__item--prx-out-right { // leaving item - leave from right to left
+      animation-name: prx-out-right;
+    }
+    
+    .slideshow--transition-prx .slideshow__item--prx-out-left, 
+    .slideshow--transition-prx .slideshow__item--prx-out-right {
+      z-index: 2;
+    
+      &.slideshow__item--selected {
+        z-index: 3; // fix bug on browsers not supporting CSS animations
+      }
+    
+      > * {
+        visibility: visible;
+      }
+    }
+  }
+  
+  @keyframes prx-in-left {
+    0% {
+      visibility: visible;
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes prx-in-right {
+    0% {
+      visibility: visible;
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes prx-out-left {
+    0% {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0.3;
+      transform: translateX(40%);
+    }
+  }
+  
+  @keyframes prx-out-right {
+    0% {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0.3;
+      transform: translateX(-40%);
+    }
+  }
+  
+  
+  // touch swipe enabled
+  .js .slideshow[data-swipe="on"] .slideshow__content {
+    user-select: none;
+  
+    img {
+      pointer-events: none;
+    }
+  }
+  
+  // slideshow arrow controls
+  .slideshow__control {
+    display: none;
+  }
+  
+  .js {
+    .slideshow[data-controls="hover"] .slideshow__control {
+      opacity: 0; // hide arrows
+      transition: opacity .3s;
+    }
+  
+    .slideshow[data-controls="hover"]:hover .slideshow__control {
+      opacity: 1; // show arrows on hover
+    }
+  
+    .slideshow[data-swipe="on"] .slideshow__control {
+      display: none; // hide arrows on mobile if swipe is enabled
+    }
+  
+    .slideshow__control {
+      display: block;
+      position: absolute;
+      z-index: 4;
+      top: 50%;
+      transform: translateY(-50%);
+    
+      &:first-of-type {
+        left: var(--slideshow-btn-offset);
+      }
+    
+      &:last-of-type {
+        right: var(--slideshow-btn-offset);
+      }
+    }
+  
+    @include breakpoint(md) {
+      .slideshow[data-swipe="on"] .slideshow__control {
+        display: block; // show arrow controls
+      }
+    }
+  }
+  
+  .slideshow__btn {
+    display: block;
+    background-color: alpha(var(--color-black), 0.75); // IE fallback
+    height: var(--slideshow-btn-height);
+    width: var(--slideshow-btn-width);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background .2s, transform 0.2s;
+  
+    &:hover {
+      background-color: alpha(var(--color-contrast-higher), 0.85);
+  
+      .icon {
+        color: var(--color-bg);
+      }
+    }
+  
+    .slideshow:not(.slideshow--is-animating) &:active { // active effect
+      transform: translateY(2px);
+    }
+  
+    .icon {
+      display: block;
+      width: var(--slideshow-btn-icon-size);
+      height: var(--slideshow-btn-icon-size);
+      margin: 0 auto;
+      transition: color .2s;
+      color: var(--color-white); // IE fallback
+    }
+  
+    @supports (grid-area: auto) {
+      background-color: transparent; // button color
+    
+      .icon {
+        color: var(--color-contrast-higher); // icon color
+      }
+    }
+  }
+  
+  // slideshow navigation
+  .slideshow__navigation { // created in JS
+    position: absolute;
+    z-index: 4;
+    bottom: 0;
+    width: 100%;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+  }
+  
+  .slideshow__nav-item {
+    display: inline-block; // flex fallback
+    margin: 0 var(--space-xxxs);
+  
+    button { // dot
+      display: block;
+      position: relative;
+      font-size: 8px; // dot size
+      color: var(--color-contrast-high); // dot color
+      height: 1em;
+      width: 1em;
+      border-radius: 50%;
+      background-color: currentColor;
+      opacity: 0.4;
+      cursor: pointer;
+      transition: background .3s;
+  
+      &::before { // focus circle
+        content: '';
+        position: absolute;
+        top: calc(50% - 0.5em);
+        left: calc(50% - 0.5em);
+        height: 1em;
+        width: 1em;
+        font-size: 14px;
+        border-radius: inherit;
+        border: 1px solid var(--color-contrast-high);
+        opacity: 0;
+        transform: scale(0);
+        transition: 0.3s;
+      }
+      
+      &:focus {
+        outline: none;
+        
+        &::before {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+  
+  .slideshow__nav-item--selected button {
+    opacity: 1;
+  }
+  
+  @include breakpoint(md) {
+    .slideshow__navigation {
+      height: 40px;
+    }
+  
+    .slideshow__nav-item {
+      button {
+        font-size: 10px; // dot size
+  
+        &::before { // focus circle
+          font-size: 16px;
+        }
+      }
+    }
+  }

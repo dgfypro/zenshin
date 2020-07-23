@@ -1,0 +1,46 @@
+#section1{
+    background-image: url('../img/hero1.jpg'); 
+    }
+    .section-content{
+    /*border:1px solid #F00;*/
+      width:80%;
+      margin:0 auto;
+      text-align:center;
+    }
+    h1{
+      margin:0;
+      color:#333;
+    }
+    h1 i.fa{
+    font-size:3em;
+    color:#FFF;
+    transition:all 0.3s ease-in-out;
+    }
+    i.fa:hover{
+    color:#f00;
+    cursor:pointer;
+    transform:scale(1.2) rotate(10deg);
+    }  
+    #section2{
+    background-color:#0F0; 
+    }
+    #section3{
+    background-color:#0ff; 
+    }
+    .slide{
+    background-size:cover;
+      background-position:center;
+    }  
+    #slide1{
+    background-image:url(http://sites.psu.edu/siowfa15/wp-content/uploads/sites/29639/2015/10/cat.jpg);
+    }  
+    #section4{
+    background-color:#999; 
+    }
+    #fp-nav ul li a span {
+      background-color: #f00;
+    }
+    
+    .fp-slidesNav ul li a span {
+      background-color: #fff;
+    }
